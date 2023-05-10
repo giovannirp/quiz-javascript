@@ -20,6 +20,17 @@ formQuiz.addEventListener("submit", (event) => {
     }
   })
   
-  formResult.querySelector("span").textContent = `${score}%`;
-  console.log(score);
+  scrollTo(0 , 0);
+  formResult.classList.remove("d-none");
+
+  let counter = 0;
+
+  const timerId = setInterval(() => {
+    if (counter === score) {
+      clearInterval(timerId);
+    }
+
+    formResult.querySelector("span").textContent = `${counter}%`;
+    counter++;
+  }, 30);
 });
