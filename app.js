@@ -1,28 +1,32 @@
-const formQuiz = document.querySelector(".form-quiz");
-const formResult = document.querySelector(".result");
+const form = document.querySelector(".form-quiz");
+const finalScoreContainer = document.querySelector(".result");
 
-const responseCorrect = ["B", "B", "B", "B"];
+const responseCorrect = ["A", "B", "A", "B"];
+let score = 0;
 
-formQuiz.addEventListener("submit", (event) => {
-  event.preventDefault();
+// obtem as resposta do usuario
+const getAnswers = () => {
+  let userAnswers = [];
 
-  let score = 0;
-  const formQuizArr = [
-    formQuiz.question1Input.value,
-    formQuiz.question2Input.value,
-    formQuiz.question3Input.value,
-    formQuiz.question4Input.value
-  ];
+  responseCorrect.forEach((_, index) => {
+    const userAnswersNew = form[`inputQuestion${index + 1}`].value;
+    userAnswers.push(userAnswersNew);
+  });
 
-  formQuizArr.forEach((item, index) => {
-    if (item === responseCorrect[index]) {
+  return userAnswers;
+}
+
+// calcula a pontuação
+const calculateUserScore = (questionInput) => {
+  questionInput.forEach((itemCorrect, index) => {
+    if (itemCorrect === responseCorrect[index]) {
       score += 25;
     }
-  })
-  
-  scrollTo(0 , 0);
-  formResult.classList.remove("d-none");
+  });
+}
 
+// aninama a pontuação
+const animateFinalScore = () => {
   let counter = 0;
 
   const timerId = setInterval(() => {
@@ -30,7 +34,25 @@ formQuiz.addEventListener("submit", (event) => {
       clearInterval(timerId);
     }
 
-    formResult.querySelector("span").textContent = `${counter}%`;
+    finalScoreContainer.querySelector("span").textContent = `${counter}%`;
     counter++;
-  }, 30);
-});
+  }, 20)
+}
+
+const showFinalScore = () => {
+  finalScoreContainer.classList.remove("d-none");
+  scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth'
+  });
+}
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const userAnswers = getAnswers()
+  calculateUserScore(userAnswers);
+  showFinalScore();
+  animateFinalScore();
+})
