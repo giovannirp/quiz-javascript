@@ -5,16 +5,8 @@ const responseCorrect = ["A", "B", "A", "B"];
 let score = 0;
 
 // obtem as resposta do usuario
-const getAnswers = () => {
-  let userAnswers = [];
-
-  responseCorrect.forEach((_, index) => {
-    const userAnswersNew = form[`inputQuestion${index + 1}`].value;
-    userAnswers.push(userAnswersNew);
-  });
-
-  return userAnswers;
-}
+const getAnswers = () => responseCorrect.map((_, index) => 
+  form[`inputQuestion${index + 1}`].value);
 
 // calcula a pontuação
 const calculateUserScore = (questionInput) => {
