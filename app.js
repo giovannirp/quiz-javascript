@@ -40,10 +40,16 @@ const showFinalScore = () => {
   });
 }
 
+const resetUserScore = () => {
+  score = 0;
+}
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const userAnswers = getAnswers()
+
+  resetUserScore()
   calculateUserScore(userAnswers);
   showFinalScore();
   animateFinalScore();
